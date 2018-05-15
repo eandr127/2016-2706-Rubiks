@@ -110,7 +110,7 @@ public class Robot extends IterativeRobot {
 	 * The log method puts interesting information to the SmartDashboard.
 	 */
     private void log() {
+        oi.log();
         driveTrain.log();
-        
     }
 }

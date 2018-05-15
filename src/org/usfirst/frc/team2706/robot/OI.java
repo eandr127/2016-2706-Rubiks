@@ -3,6 +3,7 @@ package org.usfirst.frc.team2706.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -52,6 +53,27 @@ public class OI {
         	return driverStick;
         else
         	return operatorStick;
+    }
+    
+    public void log() {
+        SmartDashboard.putBoolean("First Safety Down", safetyButtonPressed(getDriverJoystick()));
+        SmartDashboard.putBoolean("Second Safety Down", safetyButtonPressed(getOperatorJoystick()));
+        
+        SmartDashboard.putBoolean("Single Joystick Mode", getDriverJoystick() == getOperatorJoystick());
+        SmartDashboard.putBoolean("Robot is Moveable", safetyPressed());
+    }
+    
+    /**
+     * Determines if the robot can move because the safety switch is pressed or the override is enabled
+     * 
+     * @return True when the robot can do things
+     */
+    public boolean safetyPressed() {
+        return (safetyButtonPressed(getDriverJoystick()) && safetyButtonPressed(getOperatorJoystick())) || SmartDashboard.getBoolean("Override Safety Switch", false);
+    }
+    
+    private boolean safetyButtonPressed(Joystick joystick) {
+        return joystick.getRawButton(7);
     }
 }
 
